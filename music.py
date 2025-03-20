@@ -59,11 +59,15 @@ def toggle_play():
     if pg.mixer.music.get_busy(): 
         pg.mixer.music.pause()
         is_paused = True
+        play_button.image = play_button.toggle_images[True] 
     elif is_paused: 
         pg.mixer.music.unpause()
         is_paused = False
+        play_button.image = play_button.toggle_images[False] 
     else:  
         play_music()
+        play_button.image = play_button.toggle_images[True]  
+
 
 
 def next_song():
@@ -90,10 +94,19 @@ while not done:
     play_button.draw()
     next_button.draw()
 
+
+        #todo: add more buttons for volume control, shuffle, repeat, etc.
     for event in pg.event.get():
         if event.type == pg.QUIT:
             done = True
-        
+        elif event.type == pg.KEYDOWN:
+            if event.key == pg.K_LEFT:
+                previous_song()
+            elif event.key == pg.K_RIGHT:
+                next_song()
+            elif event.key == pg.K_SPACE:        
+                toggle_play()
+
     pg.display.flip()
 
 pg.quit()
